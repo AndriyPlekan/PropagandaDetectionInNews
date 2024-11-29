@@ -14,35 +14,44 @@ Python-програма для виявлення пропаганди в нов
 
 Таблиця вхідних даних.
 <br>
-<img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/data.png" alt="Data per category" width="500" height="100">
+<img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/data.png" alt="Data per category" width="700" height="120">
 
 Для візуалізації даних корпусу використовуються бібліотеки _matplotlib_ та _seaborn_, що забезпечують зручний спосіб створення графіків, з акцентом на роботу з категоріальними, статистичними та багатовимірними даними.	
 На наступному рисунку розбражено розподіл справжніх та фальшивих даних.
 <br>
 <img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/dataDistribution.png" alt="Data per category" width="700" height="250">
 
-Далі наведено розподіл категорій новин у наборі даних.<br>
+Далі наведено розподіл категорій новин у наборі даних.<br><br>
 <img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/dataPerCategory.png" alt="Data per category" width="500" height="300">
 
 Як видно на рисунку, найбільша кількість даних містить інформацію на тему економіки.
 
 ## Попередня обробка даних
-Наступним етапом виконання програми, є підготовка та очищення даних. 
+Наступним етапом виконання програми є підготовка та очищення даних. 
 В цьому дослідженні було використано кілька ефективних технік для попередньої обробки вхідних даних:
--	Видалення HTML-контенту
+-	Видалення _HTML_-контенту
 -	Перетворення корпусу у текст нижнього регістру. 
 -	Видалення спеціальних символів, таких як #, /, & *, $, та цифр.
 -	Видалення стоп-слів.
 
-Для видалення HTML-контенту використано модуль BeautifulSoup, результат зображено на рисунку далі.<br>
+Для видалення _HTML_-контенту використано модуль _BeautifulSoup_, результат зображено на рисунку далі.<br><br>
 <img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/dataAfterCleanUp.png" alt="Data per category" width="700" height="200">
 
-Оскільки у _NLTK_ поки немає корпусу української мови, то для мормологічного аналізу було використано файл з стоп-словами української мови з https://raw.githubusercontent.com/olegdubetcky/Ukrainian-Stopwords/main/ з доповненнями.<br>
+Оскільки у _NLTK_ поки немає корпусу української мови, то для мормологічного аналізу було використано [файл з стоп-словами української мови](https://raw.githubusercontent.com/olegdubetcky/Ukrainian-Stopwords/main/) з доповненнями.<br><br>
 <img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/stopWords.png" alt="Data per category" width="100" height="170">
 
-В результаті попередньої обробки отримуємо підготовлені дані.<br>
+В результаті попередньої обробки отримуємо підготовлені дані.<br><br>
 <img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/cleanedUpData.png" alt="Data per category" width="300" height="200">
 
 Також було використано графічні можливості представлення даних із бібліотеки _seaborn_ та _matplotlib_ і представлено дані у вигляді графіків та схем _WordCloud_.<br>
 <img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/wordCloud.png" alt="Data per category" width="400" height="200">
-## Результат тренування моделі
+## Модель та результати тестування
+Для створення моделі було побудовано _Sequential_ модель, яка обробляє послідовності цілих чисел, перетворює кожне ціле число в 64-вимірний вектор, а потім обробляє послідовність векторів за допомогою шару _LSTM_.
+Спочатку було додано вбудований шар за допомогою методу _Embedding_ з певними параметрами. Далі до моделі було додано 2 _LSTM_ шари - шари довготривалої пам’яті. Також було додано повнозв'язний шар з 32 та 1 елемента для класифікації, як функцію активації було використано сигмоїдну функцію та функцію _ReLU_.
+
+Тренування моделі відбувалось протягом 10-ти епох. Далі наведені результати тренування моделі протягом перших 4 епох. <br><br>
+<img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/dataTraining.png" alt="Data per category" width="300" height="200">
+
+Для оцінки точності тренування та тестування моделі використовується функція _classification_report_ із модуля _sklearn.metrics_.<br><br>
+<img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/accuracyPerEpoch.png" alt="Data per category" width="400" height="200"><br>
+У результаті отримано середню точність тестування 98% для усіх видів перевірок, що є досить великим показником і позначає високу ефективність програми. 
