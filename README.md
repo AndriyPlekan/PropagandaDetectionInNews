@@ -5,7 +5,44 @@ Python-програма для виявлення пропаганди в нов
 Для вирішення цієї проблеми створюються програмні застосунки, завдяки яким автори та модератори різних інтернет-платформ можуть автоматизовувати обробку новин та завчасно фільтрувати їх, а користувачі можуть бути більш обачними щодо вибору веб-сайту новин, які можуть негативно вплинути на них та їх світогляд.
 
 ## Дані корпусу
-Приклад пропагандистського контенту на сайті Sputnik International, що містить маніпулятивні твердження.
+В дослідженні було використано набір даних, взятий з офіційного веб-ресурсу українського видання "Українська правда". Також набір даних доповнено новинами що містять пропаганду, використовуючи для цього відомі пропагандистські ресурси: веб-сайти та Telegram-канали, які активно публікують спотворену інформацію.
+Кожен рядок в наборі даних характеризується такими полями:
+- title – заголовок новини;
+- text – вміст новини;
+- subject – тема, категорія;
+- date – дата публікації новини
+
+Таблиця вхідних даних.
+<br>
+<img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/data.png" alt="Data per category" width="500" height="100">
+
+Для візуалізації даних корпусу використовуються бібліотеки _matplotlib_ та _seaborn_, що забезпечують зручний спосіб створення графіків, з акцентом на роботу з категоріальними, статистичними та багатовимірними даними.	
+На наступному рисунку розбражено розподіл справжніх та фальшивих даних.
+<br>
+<img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/dataDistribution.png" alt="Data per category" width="700" height="250">
+
+Далі наведено розподіл категорій новин у наборі даних.<br>
+<img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/dataPerCategory.png" alt="Data per category" width="500" height="300">
+
+Як видно на рисунку, найбільша кількість даних містить інформацію на тему економіки.
 
 ## Попередня обробка даних
+Наступним етапом виконання програми, є підготовка та очищення даних. 
+В цьому дослідженні було використано кілька ефективних технік для попередньої обробки вхідних даних:
+-	Видалення HTML-контенту
+-	Перетворення корпусу у текст нижнього регістру. 
+-	Видалення спеціальних символів, таких як #, /, & *, $, та цифр.
+-	Видалення стоп-слів.
+
+Для видалення HTML-контенту використано модуль BeautifulSoup, результат зображено на рисунку далі.<br>
+<img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/dataAfterCleanUp.png" alt="Data per category" width="700" height="200">
+
+Оскільки у _NLTK_ поки немає корпусу української мови, то для мормологічного аналізу було використано файл з стоп-словами української мови з https://raw.githubusercontent.com/olegdubetcky/Ukrainian-Stopwords/main/ з доповненнями.<br>
+<img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/stopWords.png" alt="Data per category" width="100" height="170">
+
+В результаті попередньої обробки отримуємо підготовлені дані.<br>
+<img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/cleanedUpData.png" alt="Data per category" width="300" height="200">
+
+Також було використано графічні можливості представлення даних із бібліотеки _seaborn_ та _matplotlib_ і представлено дані у вигляді графіків та схем _WordCloud_.<br>
+<img src="https://github.com/AndriyPlekan/PropagandaDetectionInNews/blob/main/assets/wordCloud.png" alt="Data per category" width="400" height="200">
 ## Результат тренування моделі
